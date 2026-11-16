@@ -8,3 +8,6 @@ Champs communs : `type`, `pastille` (SEO, GEO…), `titre`, `sous_titre` (option
 - `timeline` : `evenements`: [{date, titre, texte, badge, tags[]}]
 - `annotated` : `fenetre`: {style: clair|sombre, titre, lignes: [{texte, surligne, repere}], puces[]}, `reperes`: [{n, titre, texte}]
 *mot* dans un texte = gras. Aucune donnée inventée : chaque chiffre vient d'une source lue.
+
+# vignette.py : image à la une (1200x675)
+`python3 outils/vignette.py data.json image-une-<slug>.webp` (champs : categorie, titre, mode table|serp|ai, header, highlight, ai_text, chips).
