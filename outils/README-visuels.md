@@ -1,0 +1,10 @@
+# visuels.py : schémas d'article (style emmanuelmichel.fr)
+
+`python3 outils/visuels.py data.json sortie.webp` → WebP de 1500 px de large, hauteur automatique.
+Champs communs : `type`, `pastille` (SEO, GEO…), `titre`, `sous_titre` (optionnel), `source` (pied de page, optionnel).
+- `steps` : `items`: [{titre, texte, tags[], badge}] (le dernier numéro est noir)
+- `compare` : `colonnes`: [..], `lignes`: [[..]], `colonne_mise_en_avant`: index
+- `bars` : `unite`, `barres`: [{label, valeur, note, couleur: noir|jaune, affichage}]
+- `timeline` : `evenements`: [{date, titre, texte, badge, tags[]}]
+- `annotated` : `fenetre`: {style: clair|sombre, titre, lignes: [{texte, surligne, repere}], puces[]}, `reperes`: [{n, titre, texte}]
+*mot* dans un texte = gras. Aucune donnée inventée : chaque chiffre vient d'une source lue.
