@@ -11,3 +11,6 @@ Champs communs : `type`, `pastille` (SEO, GEO…), `titre`, `sous_titre` (option
 
 # vignette.py : image à la une (1200x675)
 `python3 outils/vignette.py data.json image-une-<slug>.webp` (champs : categorie, titre, mode table|serp|ai, header, highlight, ai_text, chips).
+
+Format mobile : canevas de 450 px (rendu 1350 px), police 18 px. Aperçu `<fichier>.mobile.png` à 300 px de large : le texte doit y rester lisible.
+Limites : 5 éléments, tableau de 3 colonnes et 5 lignes au plus, cellule de 28 caractères au plus, texte d'élément de 90 caractères au plus.

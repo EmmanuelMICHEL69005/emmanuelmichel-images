@@ -22,6 +22,8 @@ kind = d.get("type", "steps")
 def e(s):
     s = html.escape(str(s))
     s = re.sub(r"\s+([:;!?»])", "&nbsp;\\1", s.replace("« ", "«&nbsp;"))
+    s = re.sub(r"(\d) (?=\d)", "\\1&nbsp;", s)  # 3 200 reste groupé
+    s = re.sub(r"(\d) (mots|Ko|Mo|€|%|h|min|jours|pages|URL)\b", "\\1&nbsp;\\2", s)
     return re.sub(r"\*(.+?)\*", r"<b>\1</b>", s)
 
 def tags(lst, cls="tag"): return "".join(f'<span class="{cls}">{e(t)}</span>' for t in lst or [])
@@ -90,51 +92,53 @@ page = f"""<!doctype html><html><head><meta charset="utf-8"><style>
 {face}
 *{{box-sizing:border-box;margin:0;padding:0}}
 html,body{{background:#e8eeec}}
-body{{width:750px;padding:34px 34px 22px;font:400 15px/1.35 {B};color:#1c2b26;
-background-image:radial-gradient(circle,rgba(47,107,87,.08) 1.2px,transparent 1.4px);background-size:26px 26px}}
-.pill{{display:inline-block;height:30px;padding:0 15px;border-radius:999px;background:#2f6b57;color:#fff;font:700 14px/30px {H}}}
-h1{{font:800 27px/1.12 {H};letter-spacing:-.012em;color:#111;margin:20px 0 6px;text-wrap:balance}}
-.sub{{font:400 15px/1.35 {B};color:#40524c;margin-bottom:18px}}
-.card{{background:#fff;border-radius:16px;box-shadow:0 8px 22px rgba(20,45,38,.09),0 1px 3px rgba(20,45,38,.06);padding:14px 18px;margin-bottom:12px}}
-h3{{font:800 18px/1.2 {H};letter-spacing:-.008em;color:#111}}
-.card p{{font:400 15px/1.35 {B};color:#40524c;margin-top:5px}} .card p b,td b{{font-weight:500;color:#111}}
-.step{{display:flex;gap:13px;align-items:flex-start}}
-.num{{flex:0 0 28px;height:28px;border-radius:8px;background:#2f6b57;color:#fff;font:800 15px/28px {H};text-align:center;margin-top:1px}}
+body{{width:450px;padding:22px 20px 14px;font:400 18px/1.32 {B};color:#1c2b26;
+background-image:radial-gradient(circle,rgba(47,107,87,.08) 1.1px,transparent 1.3px);background-size:22px 22px}}
+.pill{{display:inline-block;height:32px;padding:0 15px;border-radius:999px;background:#2f6b57;color:#fff;font:700 16px/32px {H}}}
+h1{{font:800 29px/1.13 {H};letter-spacing:-.012em;color:#111;margin:16px 0 6px;text-wrap:balance}}
+.sub{{font:400 17px/1.3 {B};color:#40524c;margin-bottom:14px}}
+.card{{background:#fff;border-radius:16px;box-shadow:0 8px 22px rgba(20,45,38,.09),0 1px 3px rgba(20,45,38,.06);padding:14px 16px;margin-bottom:11px}}
+h3{{font:800 20px/1.18 {H};letter-spacing:-.008em;color:#111}}
+.card p{{font:400 18px/1.3 {B};color:#40524c;margin-top:5px}} .card p b,td b{{font-weight:500;color:#111}}
+.step{{display:flex;gap:12px;align-items:flex-start}}
+.num{{flex:0 0 32px;height:32px;border-radius:9px;background:#2f6b57;color:#fff;font:800 17px/32px {H};text-align:center}}
 .num.dark{{background:#111}}
-.badge{{display:inline-block;margin-left:9px;padding:2px 9px;border-radius:999px;background:#f5b82e;color:#2b2208;font:700 12px/18px {H};vertical-align:2px}}
+.badge{{display:inline-block;margin-left:9px;padding:2px 9px;border-radius:999px;background:#f5b82e;color:#2b2208;font:700 14px/20px {H};vertical-align:2px;white-space:nowrap}}
 .tags{{display:flex;gap:7px;flex-wrap:wrap}} .tags:not(:empty){{margin-top:9px}}
-.tag{{padding:2px 9px;border-radius:7px;background:#f2fefc;border:1px solid #cfe6de;font:500 12px/18px {B};color:#1c2b26}}
-.chip{{padding:5px 11px;border-radius:8px;background:#2b2b2b;color:#a8c2b9;font:500 12px {B}}}
+.tag{{padding:2px 10px;border-radius:8px;background:#f2fefc;border:1px solid #cfe6de;font:500 15px/20px {B};color:#1c2b26}}
+.chip{{padding:5px 11px;border-radius:8px;background:#2b2b2b;color:#a8c2b9;font:500 15px {B}}}
 .tbl{{padding:0;overflow:hidden}} table{{width:100%;border-collapse:collapse}}
-th,td{{text-align:left;padding:11px 16px;border-top:1px solid #e8eeec;font:400 15px/1.3 {B};vertical-align:top}}
-thead th{{background:#2f6557;color:#fff;font:700 14px/1.2 {H};border-top:0}} thead th.hi{{background:#111}}
-tbody th{{font:800 15px/1.3 {H};color:#111;width:34%}} td.hi{{background:#f2fefc;font-weight:500;color:#111}}
+th,td{{text-align:left;padding:11px 12px;border-top:1px solid #e8eeec;font:400 17px/1.25 {B};vertical-align:top}}
+thead th{{background:#2f6557;color:#fff;font:700 16px/1.2 {H};border-top:0}} thead th.hi{{background:#111}}
+tbody th{{font:800 17px/1.25 {H};color:#111;width:34%}} td.hi{{background:#f2fefc;font-weight:500;color:#111}}
 .bar .row{{display:flex;justify-content:space-between;align-items:baseline;gap:12px}}
-.val{{font:800 17px {H};color:#2f6b57;white-space:nowrap}}
-.track{{height:12px;border-radius:7px;background:#e4ebe8;margin-top:9px;overflow:hidden}}
+.val{{font:800 20px {H};color:#2f6b57;white-space:nowrap}}
+.track{{height:14px;border-radius:8px;background:#e4ebe8;margin-top:9px;overflow:hidden}}
 .fill{{display:block;height:100%;border-radius:7px;background:#2f6b57}} .fill.alt{{background:#111}} .fill.warn{{background:#f5b82e}}
 .tl{{position:relative;padding-left:26px}} .tl:before{{content:"";position:absolute;left:7px;top:10px;bottom:20px;width:2px;background:#bfd3cb}}
 .ev{{position:relative}} .dot{{position:absolute;left:-26px;top:16px;width:16px;height:16px;border-radius:50%;background:#2f6b57;border:3px solid #e8eeec}}
-.date{{display:block;font:700 12px/1 {H};color:#2f6b57;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}}
-.win{{padding:0;overflow:hidden}} .wh{{background:#f4f8f7;padding:11px 18px;font:700 14px {H};color:#2f6b57;border-bottom:1px solid #e8eeec}}
-.ln{{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 18px;border-top:1px solid #f0f4f2;font:400 15px/1.35 {B}}}
+.date{{display:block;font:700 14px/1 {H};color:#2f6b57;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}}
+.win{{padding:0;overflow:hidden}} .wh{{background:#f4f8f7;padding:11px 16px;font:700 16px {H};color:#2f6b57;border-bottom:1px solid #e8eeec}}
+.ln{{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid #f0f4f2;font:400 18px/1.3 {B}}}
 .ln.hl{{background:#f2fefc}} .ln.hl span:first-child{{font-weight:500;color:#111}}
-.rep{{flex:0 0 24px;height:24px;border-radius:50%;background:#2f6b57;color:#fff;font:800 13px/24px {H};text-align:center}}
-.win .tags{{padding:0 18px 14px}} .win .tags:empty{{display:none}}
+.rep{{flex:0 0 28px;height:28px;border-radius:50%;background:#2f6b57;color:#fff;font:800 15px/28px {H};text-align:center}}
+.win .tags{{padding:0 16px 14px}} .win .tags:empty{{display:none}}
 .win.dk{{background:#111}} .dk .wh{{background:#1b1b1b;color:#a8e6cf;border-color:#2b2b2b}} .dk .ln{{border-color:#242424;color:#e6efeb}}
 .dk .ln.hl{{background:#1f2a26}} .dk .ln.hl span:first-child{{color:#f5b82e}}
-.foot{{display:flex;justify-content:space-between;gap:16px;margin-top:6px;font:400 12px/1.3 {B};color:#6c807a}}
+.foot{{display:flex;justify-content:space-between;gap:12px;margin-top:4px;font:400 14px/1.3 {B};color:#6c807a}}
 .foot span:last-child{{white-space:nowrap}}
 </style></head><body><div id="c">{head()}{body}{foot}</div>
-<script>document.fonts.ready.then(()=>{{document.body.dataset.h=Math.ceil(document.querySelector('.foot').getBoundingClientRect().bottom+26)}})</script></body></html>"""
+<script>document.fonts.ready.then(()=>{{document.body.dataset.h=Math.ceil(document.querySelector('.foot').getBoundingClientRect().bottom+16)}})</script></body></html>"""
 
 tmp = pathlib.Path(tempfile.mkdtemp()); f = tmp / "v.html"; f.write_text(page, encoding="utf-8")
-chrome = ["google-chrome", "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=2"]
-dom = subprocess.run(chrome + ["--window-size=750,900", "--virtual-time-budget=4000", "--dump-dom", f.as_uri()],
+chrome = ["google-chrome", "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=3"]
+dom = subprocess.run(chrome + ["--window-size=450,900", "--virtual-time-budget=4000", "--dump-dom", f.as_uri()],
                      capture_output=True, text=True, check=True).stdout
 hgt = int(re.search(r'data-h="(\d+)"', dom).group(1))
 png = tmp / "v.png"
-subprocess.run(chrome + [f"--window-size=750,{hgt}", f"--screenshot={png}", f.as_uri()], check=True, capture_output=True)
-im = Image.open(png).convert("RGB"); assert im.width == 1500, im.size
+subprocess.run(chrome + [f"--window-size=450,{hgt}", f"--screenshot={png}", f.as_uri()], check=True, capture_output=True)
+im = Image.open(png).convert("RGB"); assert im.width == 1350, im.size
 im.save(out, "WEBP", quality=88, method=6); im.save(pathlib.Path(out).with_suffix(".preview.png"))
+# Aperçu à la taille réelle d'un téléphone (300 px de large) : le texte doit y rester lisible
+im.resize((300, round(im.height * 300 / im.width)), Image.LANCZOS).save(pathlib.Path(out).with_suffix(".mobile.png"))
 print(out, im.size, pathlib.Path(out).stat().st_size, "octets", "fonts_ok=", fonts_ok)
